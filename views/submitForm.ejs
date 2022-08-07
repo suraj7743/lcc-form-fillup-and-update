@@ -1,0 +1,204 @@
+<%- include('header')%>
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">
+        <i class="fas fa-user-plus"></i> Submit Your Details
+      </h1>
+
+      <form action="/form" method="post" enctype="multipart/form-data">
+        <%if (typeof errors!='undefined'){errors.forEach(element=>{%>
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <%=element.message%>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        <%})}%>
+
+        <div class="form-group">
+          <label for="studentName">Name</label>
+          <input
+            type="name"
+            id="name"
+            name="studentName"
+            class="form-control"
+            placeholder="Enter Name"
+            value="<%=typeof studentName !='undefined' ? studentName: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="imageemoji">Emoji.</label>
+          <input
+            type="name"
+            id="name"
+            name="imageemoji"
+            class="form-control"
+            placeholder="Which emoji best suits you ?🤔"
+            value="<%=typeof imageemoji !='undefined' ? imageemoji: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="studentFrom">Location</label>
+          <i class="fa fa-globe" aria-hidden="true"></i>
+
+          <input
+            type="name"
+            id="name"
+            name="studentFrom"
+            class="form-control"
+            placeholder="Your place : (district)"
+            value="<%=typeof studentFrom !='undefined' ? studentFrom: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="studentCharacter">Character</label>
+          <input
+            type="name"
+            id="name"
+            name="studentCharacter"
+            class="form-control"
+            placeholder="Define Your Character in two words..."
+            value="<%=typeof studentCharacter!='undefined' ? studentCharacter: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="studentHeight">Height </label>
+          <input
+            type="name"
+            id="name"
+            name="studentHeight"
+            class="form-control"
+            placeholder="Your Height (*'*)"
+            value="<%=typeof studentHeight!='undefined' ? studentHeight: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="studentRollno">Rollno </label>
+          <input
+            type="number"
+            id="name"
+            name="studentRollno"
+            class="form-control"
+            placeholder="Your Rollno"
+            value="<%=typeof studentRollno !='undefined' ? studentRollno: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="studentGrade">Grade </label>
+          <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+
+          <input
+            type="string"
+            id="name"
+            name="studentGrade"
+            class="form-control"
+            placeholder="Your average Grade"
+            value="<%=typeof studentGrade !='undefined' ? studentGrade: ''%>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <br />
+          <label for="studentClass">Class 📙</label>
+
+          <select
+            name="studentClass"
+            class="form-select form-select-lg mb-3"
+            aria-label=".form-select-lg example"
+            required
+          >
+            <option selected>Your Class</option>
+            <option value="1">BSC-CSIT</option>
+            <option value="2">BCA</option>
+            <option value="3">BIM</option>
+          </select>
+          <!-- <input
+              type="number"
+              id="name"
+              name="rollno"
+              class="form-control"
+              placeholder="Your Rollno"
+              value=""
+            /> -->
+        </div>
+        <div class="form-group">
+          <label for="studentimage">Choose Your cute photo 😍 </label>
+          <input
+            type="file"
+            id="name"
+            name="studentimage"
+            class="form-control"
+            placeholder="Choose Your cute photo 😍"
+            required
+            style="height: 50px"
+          />
+        </div>
+        <div class="form-group">
+          <label for="studentDescription">Description </label>
+          <input
+            type="string"
+            id="name"
+            name="studentDescription"
+            class="form-control"
+            placeholder="How do you define yourself..(your hobby ,interest passion )"
+            value="<%=typeof studentDescription !='undefined' ? studentDescription: ''%>"
+            required
+            style="height: 100px"
+          />
+        </div>
+
+        <!-- <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              placeholder="Enter Email"
+              value="<%= typeof email != 'undefined' ? email : '' %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              placeholder="Create Password"
+              value="<%= typeof password != 'undefined' ? password : '' %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input
+              type="password"
+              id="password2"
+              name="password2"
+              class="form-control"
+              placeholder="Confirm Password"
+              value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+            />
+          </div> -->
+        <br />
+        <button type="submit" class="btn btn-primary btn-block" value="submit">
+          Submit Your Form
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('footer') %>

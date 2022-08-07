@@ -1,0 +1,41 @@
+<figure class="card">
+  <div class="card__emoji">
+    <img
+      src="{%STUDENTIMAGE%}"
+      style="
+        margin-bottom: 1px;
+        margin-left: 2px;
+        width: 80px;
+        height: 80px;
+
+        clip-path: circle();
+        margin-top: 14px;
+        margin-right: 2px;
+      "
+    />
+  </div>
+
+  <div class="card__title-box">
+    <h2 class="card__title">{%STUDENTNAME%}</h2>
+  </div>
+
+  <div class="card__details">
+    <div class="card__detail-box">
+      <h6 class="card__detail card__detail--organic">{%STUDENTCHARACTER%}</h6>
+    </div>
+
+    <div class="card__detail-box">
+      <h6 class="card__detail">
+        {%STUDENTGRADE%} {%IMAGEEMOJI%}{%IMAGEEMOJI%}
+      </h6>
+    </div>
+
+    <div class="card__detail-box">
+      <h6 class="card__detail card__detail--price">{%STUDENTROLLNO%}</h6>
+    </div>
+  </div>
+
+  <a class="card__link" href="/student?id={%ID%}">
+    <span>Detail <i class="emoji-right">👉</i></span>
+  </a>
+</figure>
