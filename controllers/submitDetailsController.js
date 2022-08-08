@@ -142,6 +142,7 @@ const postSubmitDetails = async (req, res) => {
     const data = await uploadDatabase.save();
 
     if (data) {
+      req.flash("success_msg", "Your form got updated");
       res.redirect("/student");
     } else {
       res.status(200).json({

@@ -27,6 +27,11 @@ app.use(
   })
 );
 app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.errors_msg = req.flash("errors_msg");
+  next();
+});
 const dotenv = require("dotenv").config({ path: "./.env" });
 app.use("/student", studentRoute);
 app.use("/", formRoute);
