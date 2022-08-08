@@ -8,6 +8,8 @@ const formRoute = require("./routes/formRoute");
 const loginRoute = require("./routes/loginroute");
 const submitRoute = require("./routes/submitFomRoute");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 const multer = require("multer");
@@ -16,6 +18,15 @@ app.use("/uploads", express.static("uploads"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "something",
+    cookie: { maxAge: 60000 },
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
 const dotenv = require("dotenv").config({ path: "./.env" });
 app.use("/student", studentRoute);
 app.use("/", formRoute);

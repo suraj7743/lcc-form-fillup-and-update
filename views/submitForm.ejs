@@ -121,9 +121,21 @@
             required
           >
             <option selected>Your Class</option>
-            <option value="1">BSC-CSIT</option>
-            <option value="2">BCA</option>
-            <option value="3">BIM</option>
+            <option
+              value="<%=typeof studentClass !='undefined' ? studentClass: ''%>"
+            >
+              BSC-CSIT
+            </option>
+            <option
+              value="<%=typeof studentClass !='undefined' ? studentClass: ''%>"
+            >
+              BCA
+            </option>
+            <option
+              value="<%=typeof studentClass !='undefined' ? studentClass: ''%>"
+            >
+              BIM
+            </option>
           </select>
           <!-- <input
               type="number"
@@ -142,6 +154,7 @@
             name="studentimage"
             class="form-control"
             placeholder="Choose Your cute photo 😍"
+            value="<%=typeof studentimage !='undefined' ? studentimage: ''%>"
             required
             style="height: 50px"
           />

@@ -9,10 +9,11 @@ const submitMainPage = async (req, res) => {
     });
   }
 };
-let errors = [];
+
 const postSubmitDetails = async (req, res) => {
   // req.file is the name of your file in the form above, here 'uploaded_file'
   // req.body will hold the text fields, if there were any
+  let errors = [];
   const {
     studentName,
     imageemoji,
@@ -33,34 +34,34 @@ const postSubmitDetails = async (req, res) => {
       message: "Enter unique name please ",
     });
 
-    return res.render("submitForm", {
-      errors,
-      imageemoji,
-      studentFrom,
-      studentCharacter,
-      studentHeight,
-      studentRollno,
-      studentGrade,
-      studentDescription,
-      studentClass,
-    });
+    // return res.render("submitForm", {
+    //   errors,
+    //   imageemoji,
+    //   studentFrom,
+    //   studentCharacter,
+    //   studentHeight,
+    //   studentRollno,
+    //   studentGrade,
+    //   studentDescription,
+    //   studentClass,
+    // });
   }
   if (studentName.length < 3) {
     errors.push({
       message: "Name must be at least three character long  ",
     });
 
-    return res.render("submitForm", {
-      errors,
-      imageemoji,
-      studentFrom,
-      studentCharacter,
-      studentHeight,
-      studentRollno,
-      studentGrade,
-      studentDescription,
-      studentClass,
-    });
+    // return res.render("submitForm", {
+    //   errors,
+    //   imageemoji,
+    //   studentFrom,
+    //   studentCharacter,
+    //   studentHeight,
+    //   studentRollno,
+    //   studentGrade,
+    //   studentDescription,
+    //   studentClass,
+    // });
   }
 
   const studentDescriptionArray = studentDescription.split(" ").length;
@@ -68,24 +69,38 @@ const postSubmitDetails = async (req, res) => {
     errors.push({
       message: "Description must be 20 word long ",
     });
-    return res.render("submitForm", {
-      errors,
-      imageemoji,
-      studentFrom,
-      studentCharacter,
-      studentHeight,
-      studentRollno,
-      studentGrade,
-      studentClass,
-      studentName,
-      studentDescription,
-    });
+    // return res.render("submitForm", {
+    //   errors,
+    //   imageemoji,
+    //   studentFrom,
+    //   studentCharacter,
+    //   studentHeight,
+    //   studentRollno,
+    //   studentGrade,
+    //   studentClass,
+    //   studentName,
+    //   studentDescription,
+    // });
   }
   const studentCharacterArray = studentCharacter.split(" ").length;
   if (studentCharacterArray !== 2) {
     errors.push({
       message: "Character should be exact of two words only ",
     });
+    // return res.render("submitForm", {
+    //   errors,
+    //   imageemoji,
+    //   studentFrom,
+    //   studentCharacter,
+    //   studentHeight,
+    //   studentRollno,
+    //   studentGrade,
+    //   studentClass,
+    //   studentName,
+    //   studentDescription,
+    // });
+  }
+  if (errors.length > 0) {
     return res.render("submitForm", {
       errors,
       imageemoji,
@@ -94,9 +109,10 @@ const postSubmitDetails = async (req, res) => {
       studentHeight,
       studentRollno,
       studentGrade,
+      studentDescription,
       studentClass,
       studentName,
-      studentDescription,
+      studentimage: this.studentimage,
     });
   }
 
