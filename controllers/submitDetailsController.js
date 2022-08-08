@@ -110,7 +110,7 @@ const postSubmitDetails = async (req, res) => {
       studentRollno,
       studentGrade,
       studentDescription,
-      studentClass,
+
       studentName,
       studentimage: this.studentimage,
     });
