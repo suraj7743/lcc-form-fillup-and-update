@@ -80,7 +80,15 @@ const db = process.env.MONGODBATLAS.replace(
   process.env.DB_PASSWORD
 );
 app.all("*", (req, res, next) => {
-  res.render("errorpage");
+  const err = new Error("unhandled route");
+  (err.status = "failure"), (err.statuscode = 404);
+  next(err);
+});
+app.use((err, req, res, next) => {
+  res.status(err.statuscode || 500).json({
+    status: err.status || "error",
+    message: err.message || "internal server error ",
+  });
 });
 app.listen(process.env.PORT || 8000, async () => {
   await mongoose.connect(db, {});
