@@ -79,6 +79,9 @@ const db = process.env.MONGODBATLAS.replace(
   "DB_PASSWORD",
   process.env.DB_PASSWORD
 );
+app.all("*", (req, res, next) => {
+  res.render("errorpage");
+});
 app.listen(process.env.PORT || 8000, async () => {
   await mongoose.connect(db, {});
 });
