@@ -28,7 +28,7 @@ const jwttoken = (id) => {
   return token;
 };
 //post the register form
-const postForm = async (req, res) => {
+const postForm = async (req, res, next) => {
   try {
     const { name, email, password, confirm_password } = req.body;
     const existEmail = await loginRegister.find({ email });
@@ -77,7 +77,7 @@ const postForm = async (req, res) => {
 
       const formData = await loginData.save();
       let token = jwttoken(formData._id);
-      console.log(req.headers);
+      req.headers.authorization = "Bearer " + token;
       console.log(req.headers.authorization);
 
       res.redirect("/student");
