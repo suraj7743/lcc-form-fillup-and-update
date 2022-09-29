@@ -37,6 +37,9 @@
     <!-- <input type="Submit" value="Submit" class="submitform" /> -->
     <button type="submit" value="Submit" class="submitform">SUBMIT</button>
   </form>
+  <form action="/register">
+    <button type="submit" value="Submit" class="submitform">REGISTER</button>
+  </form>
   <br />
 
   <%if(typeof invalidLogin !='undefined'){%>
@@ -151,6 +154,7 @@
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
     text-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.2rem;
+    margin-bottom: 10px;
   }
   .submitform:hover {
     background-color: rgb(255, 255, 255);

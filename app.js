@@ -7,16 +7,23 @@ const studentRoute = require("./routes/studentRoute");
 const formRoute = require("./routes/formRoute");
 const loginRoute = require("./routes/loginroute");
 const submitRoute = require("./routes/submitFomRoute");
+const errorRoute = require("./routes/errorRoute");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+//handle the synchronous error of uncaughtException
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.set("view engine", "ejs");
 const multer = require("multer");
-const errorRoute = require("./routes/errorRoute");
 app.use("/uploads", express.static("uploads"));
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   session({
@@ -51,34 +58,33 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/student", upload.single("studentimage"), async function (req, res) {
-  // req.file is the name of your file in the form above, here 'uploaded_file'
-  // req.body will hold the text fields, if there were any
-  const dataModel = new studentModel({
-    studentName: req.body.studentName,
-    imageemoji: req.body.imageemoji,
-    studentFrom: req.body.studentFrom,
-    studentCharacter: req.body.studentCharacter,
-    studentHeight: req.body.studentHeight,
-    studentRollno: req.body.studentRollno,
-    studentGrade: req.body.studentGrade,
-    studentDescription: req.body.studentDescription,
-    studentimage: req.file.path,
-    studentClass: req.body.studentClass,
-  });
-  const data = await dataModel.save();
-  res.status(200).json({
-    status: "success",
-    data,
-  });
-  console.log(req.file, req.body);
-});
-
-console.log(process.env.DATABASE);
-const db = process.env.MONGODBATLAS.replace(
-  "DB_PASSWORD",
-  process.env.DB_PASSWORD
+app.post(
+  "/student",
+  upload.single("studentimage"),
+  async function (req, res, next) {
+    // req.file is the name of your file in the form above, here 'uploaded_file'
+    // req.body will hold the text fields, if there were any
+    const dataModel = new studentModel({
+      studentName: req.body.studentName,
+      imageemoji: req.body.imageemoji,
+      studentFrom: req.body.studentFrom,
+      studentCharacter: req.body.studentCharacter,
+      studentHeight: req.body.studentHeight,
+      studentRollno: req.body.studentRollno,
+      studentGrade: req.body.studentGrade,
+      studentDescription: req.body.studentDescription,
+      studentimage: req.file.path,
+      studentClass: req.body.studentClass,
+    });
+    const data = await dataModel.save();
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+    console.log(req.file, req.body);
+  }
 );
+
 app.all("*", (req, res, next) => {
   const err = new Error("unhandled route");
   (err.status = "failure"), (err.statuscode = 404);
@@ -90,8 +96,19 @@ app.use((err, req, res, next) => {
     message: err.message || "internal server error ",
   });
 });
-app.listen(process.env.PORT || 8000, async () => {
-  await mongoose.connect(db, {});
+const mongodburl = process.env.MONGODBATLAS.replace(
+  "DB_PASSWORD",
+  process.env.DB_PASSWORD
+);
+const server = app.listen(process.env.PORT || 8000, async () => {
+  await mongoose.connect(mongodburl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 });
-//good
-//aba tw chalna parxa
+process.on("unhandledRejection", (err) => {
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});

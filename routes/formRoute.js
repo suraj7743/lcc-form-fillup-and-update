@@ -6,5 +6,5 @@ router.get("/", async (req, res) => {
 });
 router.get("/register", formController.loadRegister);
 router.post("/register", formController.postForm);
-router.get("/verify", formController.verifyCheck);
+// router.get("/verify", formController.verifyCheck);
 module.exports = router;

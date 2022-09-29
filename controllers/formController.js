@@ -2,16 +2,32 @@ const loginRegister = require("../models/FormModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
+const catchAsync = require("../utils/Catchasync");
+const appError = require("../utils/AppError");
 let errors = [];
 //load register page
-const loadRegister = async (req, res) => {
+const loadRegister = catchAsync(async (req, res, next) => {
   try {
     res.render("register");
   } catch (error) {
     res.render("errorpage");
   }
-};
+});
 
+//need to sigin in and verify the jwt token exists
+const jwttoken = (id) => {
+  const token = jwt.sign(
+    {
+      id,
+    },
+    process.env.JWT_KEY,
+    {
+      expiresIn: "30d",
+    }
+  );
+  return token;
+};
+//post the register form
 const postForm = async (req, res) => {
   try {
     const { name, email, password, confirm_password } = req.body;
@@ -53,49 +69,53 @@ const postForm = async (req, res) => {
         email,
       });
     } else {
-      const securepass = await bcrypt.hash(req.body.password, 10);
       const loginData = loginRegister({
         name,
         email,
-        password: securepass,
-        confirm_password: securepass,
+        password,
       });
+
       const formData = await loginData.save();
-      if (formData) {
-        const sendmail = mailVerify(
-          req.body.name,
-          req.body.email,
-          formData._id,
-          req.header("host")
-        );
-        console.log(req.header("host"));
-        res.render("register", {
-          messageVerify: "Please check your email to verify and login",
-        });
-      }
+      let token = jwttoken(formData._id);
+      console.log(req.headers);
+      console.log(req.headers.authorization);
+
+      res.redirect("/student");
+      // if (formData) {
+      //   const sendmail = mailVerify(
+      //     req.body.name,
+      //     req.body.email,
+      //     formData._id,
+      //     req.header("host")
+      //   );
+      //   console.log(req.header("host"));
+      //   res.render("register", {
+      //     messageVerify: "Please check your email to verify and login",
+      //   });
+      // }
     }
   } catch (error) {
     console.log(error.message);
     res.render("errorpage");
   }
 };
-const verifyCheck = async (req, res) => {
-  const updateInfo = await loginRegister.updateOne(
-    { _id: req.query.id },
-    { $set: { is_verified: 1 } }
-  );
+// const verifyCheck = async (req, res) => {
+//   const updateInfo = await loginRegister.updateOne(
+//     { _id: req.query.id },
+//     { $set: { is_verified: 1 } }
+//   );
 
-  if (updateInfo) {
-    res.redirect("/login");
-  } else {
-    errors.push({
-      message: "First verify your email to login",
-    });
-    res.render("register", {
-      errors,
-    });
-  }
-};
+//   if (updateInfo) {
+//     res.redirect("/login");
+//   } else {
+//     errors.push({
+//       message: "First verify your email to login",
+//     });
+//     res.render("register", {
+//       errors,
+//     });
+//   }
+// };
 const mailVerify = async (name, email, id, header) => {
   try {
     // create reusable transporter object using the default SMTP transport
@@ -127,5 +147,5 @@ const mailVerify = async (name, email, id, header) => {
 module.exports = {
   loadRegister,
   postForm,
-  verifyCheck,
+  // verifyCheck,
 };
