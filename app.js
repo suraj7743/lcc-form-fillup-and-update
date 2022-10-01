@@ -24,21 +24,13 @@ app.set("view engine", "ejs");
 const multer = require("multer");
 app.use("/uploads", express.static("uploads"));
 
+// app.use(flash());
+// app.use((req, res, next) => {
+//   res.locals.success_msg = req.flash("success_msg");
+//   res.locals.errors_msg = req.flash("errors_msg");
+//   next();
+// });
 app.use(cookieParser());
-app.use(
-  session({
-    secret: "something",
-    cookie: { maxAge: 60000 },
-    resave: true,
-    saveUninitialized: true,
-  })
-);
-app.use(flash());
-app.use((req, res, next) => {
-  res.locals.success_msg = req.flash("success_msg");
-  res.locals.errors_msg = req.flash("errors_msg");
-  next();
-});
 const dotenv = require("dotenv").config({ path: "./.env" });
 app.use("/student", studentRoute);
 app.use("/", formRoute);

@@ -7,7 +7,7 @@ const FormModel = require("../../models/FormModel");
 const protectMiddleware = async (req, res, next) => {
   //1 first check whether the req. headers and req.headers.authoreization exist or not
   let token;
-  console.log(req.headers.authorization);
+  console.log(req.header);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")

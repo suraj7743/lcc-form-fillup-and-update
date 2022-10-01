@@ -77,8 +77,12 @@ const postForm = async (req, res, next) => {
 
       const formData = await loginData.save();
       let token = jwttoken(formData._id);
-      req.headers.authorization = "Bearer " + token;
-      console.log(req.headers.authorization);
+      res.cookie("jwt", token, {
+        expires: new Date(
+          Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+        ),
+        httpOnly: false,
+      });
 
       res.redirect("/student");
       // if (formData) {
